@@ -8,8 +8,27 @@ STM32F429_Quadrotor
 
 <img src = "https://lh5.googleusercontent.com/-ox-Q230u9II/VVwGDFMxlaI/AAAAAAAABPo/IFKrzYnNl2M/w1032-h595-no/%25E6%259C%25AA%25E5%2591%25BD%25E5%2590%258D.png" width=600>
 
-License
-======================
+## Connection pins
+
+* [Input signal] R/C remote control:
+
+  PB6 - `PWM1 (Roll)`  PB7 - `PWM2 (Pitch)`   PA0 - `PWM3 (Thrust)`   PA2 - `PWM4 (Yaw)`   PA3 - `PWM5 (Safety)`
+
+* [Output signal] Motors:
+
+  PA6 - `PWM9 (motor1)`   PA7 - `PWM10 (motor2)`   PB0 - `PWM11 (motor3)`    PB1 - `PWM12 (motor4)`
+  
+* [IMU] mpu9150 & ms5611:
+
+  PC3 - `INT`   PB8 - `SCL`   PB9 - `SDA`   
+  
+* [Ground station]:
+
+  PB10 - `USART3(Tx)`   PB11 - `USART3(Rx)`
+
+
+## License
+
 * The [QCopterFlightControl](https://github.com/Hom19910422/QCopterFlightControl) project is copyrighted by [Hom19910422](Hom19910422@gmail.com) and governed by MIT license.
 
 
@@ -19,8 +38,8 @@ License
 
 * The [STM32F429_Quadrotor](https://github.com/zxc2694/ICLab_Quadrotor) is released as MIT License and welcome to send any feedback to us!
 
-Features
-======================
+## Features
+
 * Support three commercial R/C remoters(Futaba R/C, devention R/C, WFLY R/C)
 * Support FreeRTOS and linenoise text editing environment with a Shell
 * Real time plotting data from GUI by Python on ground station  
@@ -28,8 +47,8 @@ Features
 * Online tuning PID parameters
 
 
-Shell commands
-======================
+## Shell commands
+
 * clear - Clear the screen
 * help - The informations of the shell
 * monitor - A QuadCopter Status Monitor
@@ -39,8 +58,8 @@ Shell commands
 * showData - Display all the data of flight from reading IMU 
 * tuning - Online tuning PID parameters
 
-QuadCopter Status Monitor
-======================
+## QuadCopter Status Monitor
+
 After enable the command line, you can type :
 * resume - Disable the commandline mode
 * reset - Drop the unsaved settings
@@ -50,14 +69,14 @@ After enable the command line, you can type :
 * set - Set the parameter of the quadcopter
       - set [quadcopter parameter] [value] / set update
 
-Linenoise hotkeys
-======================
+## Linenoise hotkeys
+
 * To get more informations, please read the LINENOISE.md
 
-TODO
-======================
+## TODO
+
 * Filter improvement
 * Height control implementation
-* Position control
-* Speed controll
+* Position control and speed control 
 * GPS navigation and auto-pilot
+* Image processing with ov7670
