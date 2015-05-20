@@ -1,6 +1,6 @@
 STM32F429_Quadrotor
 ======================
-* During the building process of Quadrotor software system, developers often face some kind of problem that the developement environment limited by the hardware standards of flight control board; therefore, this project use official [STM32F429](http://www.conrad.com/medias/global/ce/6000_6999/6200/6210/6214/1086317_BB_00_FB.EPS_1000.jpg) for Quadrotor system, it's more convenient and fulliling the maker's spirit. 
+* During the building process of Quadrotor software system, developers often face some kind of problem that the developement environment is limited by the hardware standards of flight control board; therefore, this project use official [STM32F429](http://www.conrad.com/medias/global/ce/6000_6999/6200/6210/6214/1086317_BB_00_FB.EPS_1000.jpg) for Quadrotor system, it's more convenient and fulliling the maker's spirit. 
 
 * This is a quadcopter flight control project based on [QCopterFlightControl2.0](https://github.com/Hom19910422/QCopterFlightControl).	The software is being heavily modified in order to adapt FreeRTOS derived multi-threaded and priority-based computing environment. That means we could manage manay task and implement mult-thread application. User can see the sensor status when you try to design or monitor you rotor. A special designed shell enironment could help user to send some command or do some actions on rotors.
 
