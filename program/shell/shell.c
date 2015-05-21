@@ -65,7 +65,7 @@ void shell_linenoise_completion(const char *buf, linenoiseCompletions *lc)
 void shell_task()
 {
 	//Waiting for system finish initialize
-//	while (system.status != SYSTEM_INITIALIZED);
+	while (system.status != SYSTEM_INITIALIZED);
 
 #if configSTATUS_SHELL
 	/* Clear the screen */
