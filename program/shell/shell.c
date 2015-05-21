@@ -174,6 +174,13 @@ void shell_task()
 			}
 #endif
 
+#if test_USART2	
+			while(1){
+				serial2.putc('a');
+				vTaskDelay(100);
+			}
+#endif
+
 	}
 }
 /**** Customize command function ******************************************************/

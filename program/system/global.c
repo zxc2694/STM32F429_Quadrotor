@@ -56,3 +56,4 @@ status_t SD_status;
 
 xSemaphoreHandle serial_tx_wait_sem = NULL;
 xQueueHandle serial_rx_queue = NULL;
+xQueueHandle Ultrasonic_serial_rx_queue = NULL;
