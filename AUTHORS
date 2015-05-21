@@ -4,8 +4,12 @@ Original QuadrotorFlightControl was written by:
 Original Linenoise was written by:
 	Antirez <antirez@gmail.com>
 
-New contributors to QuadrotorFlightControl
+Contributors to QuadrotorFlightControl moonbear project:
 	Da-Feng Huang <fantasyboris@gmail.com>
 	Cheng-De Liu <zxc2694zxc2694@gmail.com>
 	Cheng-Han Yang <poemofking@gmail.com>
 	Shengwen Cheng <shengwen1997.tw@gmail.com>
+
+New contributors to STM32F429_Quadrotor:
+	Cheng-De Liu <zxc2694zxc2694@gmail.com>
+	Alice Sun <saya222777@gmail.com>
