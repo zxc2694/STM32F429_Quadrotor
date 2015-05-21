@@ -15,7 +15,8 @@
   * @retval None
   */
 void Serial_Config(int buadrate) /* Tx:Pb10, Rx:Pb11 */
-{
+{	//USART3 : Tx = PB10, Rx = PB11
+	
 	/* RCC Initialization */
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB,  ENABLE);
 	//GPIO使用之宣告，來自stm32f4xx_rcc.c，使用腳位PB系列
@@ -99,6 +100,13 @@ SERIAL serial = {
 	.printf = printf_base
 };
 
+SERIAL serial2 = {
+	.getc = Ultrasonic_getc_base,
+	.putc = Ultrasonic_putc_base,
+	.gets = Ultrasonic_gets_base,
+	.puts = Ultrasonic_puts_base,
+};
+
 /**
   * Function name : serial.getc (function base)
   * @brief  get a char from the serial char queue
@@ -110,6 +118,15 @@ char getc_base(void)
 	serial_msg msg;
 
 	while (!xQueueReceive(serial_rx_queue, &msg, portMAX_DELAY));
+
+	return msg.ch;
+}
+
+char Ultrasonic_getc_base(void)
+{
+	serial_msg msg;
+
+	while (!xQueueReceive(Ultrasonic_serial_rx_queue, &msg, portMAX_DELAY));
 
 	return msg.ch;
 }
@@ -128,6 +145,14 @@ void putc_base(char str)
 	USART_ITConfig(USART3, USART_IT_TXE, ENABLE);
 }
 
+void Ultrasonic_putc_base(char str)
+{
+	while (!xSemaphoreTake(serial_tx_wait_sem, portMAX_DELAY));
+
+	USART_SendData(USART2, (uint16_t)str);
+	USART_ITConfig(USART2, USART_IT_TXE, ENABLE);
+}
+
 /**
   * Function name : serial.gets (function base)
   * @brief  get a string from the serial
@@ -142,6 +167,14 @@ int gets_base(void)
 	return 1;
 }
 
+int Ultrasonic_gets_base(void)
+{
+	char str;
+	str = serial2.getc();
+	serial.printf("%c", str);
+	return 1;
+}
+
 /**
   * Function name : serial.puts (function base)
   * @brief  send a string through the serial
@@ -152,6 +185,14 @@ int puts_base(const char *msg)
 {
 	for (; *msg; msg++)
 		serial.putc(*msg);
+
+	return 1;
+}
+
+int Ultrasonic_puts_base(const char *msg)
+{
+	for (; *msg; msg++)
+		serial2.putc(*msg);
 
 	return 1;
 }
@@ -208,3 +249,84 @@ int printf_base(const char *format, ...)
 	serial.puts(str);
 	return 1;
 }
+
+/***********************************************************************
+USART2
+Tx = PD5  , Rx = PD6
+************************************************************************/
+
+void Ultrasonic_Serial_Config(int buadrate)
+{	// USART2 : Tx = PD5, Rx = PD6
+
+	/* RCC Initialization */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD,  ENABLE);
+	//GPIO使用之宣告，來自stm32f4xx_rcc.c，使用腳位PD系列
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE);
+	//USART使用之宣告，來自stm32f4xx_rcc.c，使用USART第2組
+
+	/* GPIO Initialization */
+	GPIO_InitTypeDef GPIO_InitStruct = {
+		.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_6, 		//腳位設定
+		.GPIO_Mode = GPIO_Mode_AF,
+		.GPIO_OType = GPIO_OType_PP,
+		.GPIO_PuPd = GPIO_PuPd_UP,
+		.GPIO_Speed = GPIO_Speed_50MHz
+	};
+
+	GPIO_PinAFConfig(GPIOD, GPIO_PinSource5, GPIO_AF_USART2);
+	GPIO_PinAFConfig(GPIOD, GPIO_PinSource6, GPIO_AF_USART2);
+	// GPIO使用之宣告，來自stm32f4xx_gpio.c
+	GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+	/* USART3 Initialization */
+	USART_InitTypeDef USART_InitStruct = {
+		.USART_BaudRate = buadrate, 				//設定鮑率
+		.USART_WordLength = USART_WordLength_8b,
+		.USART_StopBits = USART_StopBits_1,
+		.USART_Parity = USART_Parity_No,
+		.USART_HardwareFlowControl = USART_HardwareFlowControl_None,
+		.USART_Mode = USART_Mode_Rx | USART_Mode_Tx 	//設定模式
+	};
+
+	USART_Init(USART2, &USART_InitStruct);
+	USART_Cmd(USART2, ENABLE);
+	USART_ClearFlag(USART2, USART_FLAG_TC);
+	// USART初始函數，來自stm32f4xx_usart.c
+
+	/* NVIC Initialization */
+	USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+
+	NVIC_InitTypeDef NVIC_InitStruct = {
+		.NVIC_IRQChannel = USART2_IRQn,
+		.NVIC_IRQChannelPreemptionPriority = configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY + 1,
+		.NVIC_IRQChannelSubPriority = 0,
+		.NVIC_IRQChannelCmd = ENABLE
+	};
+	NVIC_Init(&NVIC_InitStruct);
+}
+
+void USART2_IRQHandler()
+{
+	long lHigherPriorityTaskWoken = pdFALSE;
+
+	serial_msg rx_msg;
+
+	if (USART_GetITStatus(USART2, USART_IT_TXE) != RESET) {
+		xSemaphoreGiveFromISR(serial_tx_wait_sem, &lHigherPriorityTaskWoken);
+
+		USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
+
+	} else if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET) {
+		rx_msg.ch = USART_ReceiveData(USART2);
+
+		if (!xQueueSendToBackFromISR(serial_rx_queue, &rx_msg, &lHigherPriorityTaskWoken))
+			portEND_SWITCHING_ISR(lHigherPriorityTaskWoken);
+
+	} else {
+		while (1);
+	}
+	portEND_SWITCHING_ISR(lHigherPriorityTaskWoken);
+}
+
+

@@ -33,6 +33,7 @@ void system_init(void)
 {
 	LED_Config();
 	Serial_Config(Serial_Baudrate);
+	Ultrasonic_Serial_Config(Serial_Baudrate);
 	//進行GPIO、USART等等serial connection的初始化等工作，函數來自serial.c
 	Motor_Config();
 	PWM_Capture_Config();
@@ -306,7 +307,8 @@ int main(void) 		//主程式
 
 	vSemaphoreCreateBinary(serial_tx_wait_sem);
 	//以Semaphore設定USART Tx, Rx初始設定
-	serial_rx_queue = xQueueCreate(1, sizeof(serial_msg));
+	serial_rx_queue = xQueueCreate(5, sizeof(serial_msg));
+	Ultrasonic_serial_rx_queue = xQueueCreate(5, sizeof(serial_msg));
 
 	/* IMU Initialization, Attitude Correction Flight Control */
 	xTaskCreate(check_task,

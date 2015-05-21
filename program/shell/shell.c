@@ -65,7 +65,7 @@ void shell_linenoise_completion(const char *buf, linenoiseCompletions *lc)
 void shell_task()
 {
 	//Waiting for system finish initialize
-	while (system.status != SYSTEM_INITIALIZED);
+//	while (system.status != SYSTEM_INITIALIZED);
 
 #if configSTATUS_SHELL
 	/* Clear the screen */
@@ -170,6 +170,13 @@ void shell_task()
 				serial.printf("%f %f %f \n\r",
 					      system.variable[GYROX].value, system.variable[GYROY].value,
 					      system.variable[GYROZ].value);
+				vTaskDelay(100);
+			}
+#endif
+
+#if test_USART2	
+			while(1){
+				serial2.putc('a');
 				vTaskDelay(100);
 			}
 #endif
