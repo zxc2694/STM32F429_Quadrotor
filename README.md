@@ -25,6 +25,8 @@ STM32F429_Quadrotor
 * [Ground station]:
 
   PB10 - `USART3(Tx)`   PB11 - `USART3(Rx)`
+  
+  <img src = "http://i.imgur.com/llzftbI.png" width=900>
 
 
 ## License
