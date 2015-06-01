@@ -181,6 +181,15 @@ void shell_task()
 			}
 #endif
 
+#if test_Ultrasonic	
+			while(1){
+				us100_distant();
+				serial.putc('a');
+				serial.printf(Ultrasonic.d);
+				vTaskDelay(100);
+			}
+#endif
+
 	}
 }
 /**** Customize command function ******************************************************/
