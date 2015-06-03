@@ -27,5 +27,6 @@ int printf_base(const char *format, ...);
 void Serial_Config(int buadrate);
 void Ultrasonic_Serial_Config(int buadrate);
 void USART2_IRQHandler();
+void USART3_IRQHandler();
 
 #endif
