@@ -289,7 +289,7 @@ void lcd_task()  		//LCD ili9341 用來顯示飛行器的資料
 	    LCD_Yaw_Digits = LCD_Yaw_Digits + 48;
 
 	    /* 印出字串在螢幕  X,   Y,    string,         字體大小,           字體顏色,             背景顏色        */
-		TM_ILI9341_Putc(150, 50, LCD_Roll_Tens, &TM_Font_11x18, ILI9341_COLOR_BLACK, ILI9341_COLOR_MAGENTA);
+	    TM_ILI9341_Putc(150, 50, LCD_Roll_Tens, &TM_Font_11x18, ILI9341_COLOR_BLACK, ILI9341_COLOR_MAGENTA);
 	    TM_ILI9341_Putc(150, 80, LCD_Pitch_Tens, &TM_Font_11x18, ILI9341_COLOR_BLACK, ILI9341_COLOR_MAGENTA);
 	    TM_ILI9341_Putc(150, 110, LCD_Yaw_Tens, &TM_Font_11x18, ILI9341_COLOR_BLACK, ILI9341_COLOR_MAGENTA);
 	    TM_ILI9341_Putc(160, 50, LCD_Roll_Digits, &TM_Font_11x18, ILI9341_COLOR_BLACK, ILI9341_COLOR_MAGENTA);
@@ -306,6 +306,7 @@ int main(void) 		//主程式
 	//系統初始化
 
 	vSemaphoreCreateBinary(serial_tx_wait_sem);
+	vSemaphoreCreateBinary(Ultrasonic_serial_tx_wait_sem);
 	//以Semaphore設定USART Tx, Rx初始設定
 	serial_rx_queue = xQueueCreate(5, sizeof(serial_msg));
 	Ultrasonic_serial_rx_queue = xQueueCreate(5, sizeof(serial_msg));

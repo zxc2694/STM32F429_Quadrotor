@@ -147,7 +147,7 @@ void putc_base(char str)
 
 void Ultrasonic_putc_base(char str)
 {
-	while (!xSemaphoreTake(serial_tx_wait_sem, portMAX_DELAY));
+	while (!xSemaphoreTake(Ultrasonic_serial_tx_wait_sem, portMAX_DELAY));
 
 	USART_SendData(USART2, (uint16_t)str);
 	USART_ITConfig(USART2, USART_IT_TXE, ENABLE);
@@ -313,7 +313,7 @@ void USART2_IRQHandler()
 	serial_msg rx_msg;
 
 	if (USART_GetITStatus(USART2, USART_IT_TXE) != RESET) {
-		xSemaphoreGiveFromISR(serial_tx_wait_sem, &lHigherPriorityTaskWoken);
+		xSemaphoreGiveFromISR(Ultrasonic_serial_tx_wait_sem, &lHigherPriorityTaskWoken);
 
 		USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
 
