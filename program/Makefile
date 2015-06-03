@@ -100,6 +100,7 @@ SRC+=$(DRIVER)/delay.c \
 	$(DRIVER)/nrf24l01.c \
 	$(DRIVER)/sensor.c \
 	$(DRIVER)/serial.c \
+	$(DRIVER)/us100.c \
 	$(DRIVER)/led.c 
 
 CFLAGS+=-I$(SYSTEM)

@@ -17,6 +17,7 @@
 #define configSTATUS_GET_ROLL_PITCH_YAW	0
 #define configSTATUS_GET_ROLL_PITCH_MOTORS 0
 #define test_USART2 0
+#define test_Ultrasonic 0
 /* gui3 */
 #define configSTATUS_GET_MAG 0
 #define configSTATUS_GET_ACC 0
@@ -71,6 +72,7 @@
 #include "nrf24l01.h"
 #include "serial.h"
 #include "sensor.h"
+#include "us100.h"
 
 //Shell
 #include "linenoise.h"
