@@ -85,6 +85,7 @@ extern system_t system;
 extern status_t SD_status;
 extern Sensor_Mode SensorMode;
 extern xSemaphoreHandle serial_tx_wait_sem;
+extern xSemaphoreHandle Ultrasonic_serial_tx_wait_sem;
 extern xQueueHandle serial_rx_queue;
 extern xQueueHandle Ultrasonic_serial_rx_queue;
 

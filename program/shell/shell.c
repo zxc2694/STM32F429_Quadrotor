@@ -181,6 +181,22 @@ void shell_task()
 			}
 #endif
 
+#if test_Ultrasonic	
+			while(1){
+				//char a;
+				serial2.putc('4');
+				us100_distant();
+				serial2.putc('5');
+				//a=serial2.getc();
+				//serial2.putc(a);
+
+				
+				serial2.putc(Ultrasonic.d);
+				//serial2.putc('5');
+				vTaskDelay(100);
+			}
+#endif
+
 	}
 }
 /**** Customize command function ******************************************************/
