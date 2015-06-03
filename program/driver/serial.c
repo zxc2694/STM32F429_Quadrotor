@@ -104,7 +104,7 @@ SERIAL serial2 = {
 	.getc = Ultrasonic_getc_base,
 	.putc = Ultrasonic_putc_base,
 	.gets = Ultrasonic_gets_base,
-	.puts = Ultrasonic_puts_base,
+	.puts = Ultrasonic_puts_base
 };
 
 /**
@@ -320,7 +320,7 @@ void USART2_IRQHandler()
 	} else if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET) {
 		rx_msg.ch = USART_ReceiveData(USART2);
 
-		if (!xQueueSendToBackFromISR(serial_rx_queue, &rx_msg, &lHigherPriorityTaskWoken))
+		if (!xQueueSendToBackFromISR(Ultrasonic_serial_rx_queue, &rx_msg, &lHigherPriorityTaskWoken))
 			portEND_SWITCHING_ISR(lHigherPriorityTaskWoken);
 
 	} else {
