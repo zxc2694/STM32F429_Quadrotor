@@ -20,17 +20,19 @@ Ultrasonic_t Ultrasonic = {
 void us100_distant(){
 
 	//reading data
+	serial2.putc('U');
+	vTaskDelay(500);
 
-	serial.putc('U');
-	serial2.putc('1');
-	//vTaskDelay(500);
+	serial2.putc('U');
+	vTaskDelay(500);
+	serial.putc('1');
 
 	//calculating the distance
 	//if(serial2.getc()){
-		Ultrasonic.lenHigh = serial.getc();
-		serial2.putc('2');
-		Ultrasonic.lenLow = serial.getc();
-		serial2.putc('3');
+		Ultrasonic.lenHigh = serial2.getc();
+		serial.putc('2');
+		Ultrasonic.lenLow = serial2.getc();
+		serial.putc('3');
 		Ultrasonic.d = Ultrasonic.lenHigh*256 + Ultrasonic.lenLow;
 	//}
 }

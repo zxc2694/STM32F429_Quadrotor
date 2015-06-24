@@ -230,6 +230,20 @@ void nrf_sending_task() 			//將資料經由nrf傳輸出去
 
 }
 
+char a=0;
+void Ultrasonic_task(){
+//	while (system.status != SYSTEM_INITIALIZED);
+
+	while(1){
+		a=serial2.getc();
+	vTaskDelay(20);
+	a++;
+		serial.putc(a);
+		vTaskDelay(20);
+
+	}
+}
+
 void lcd_task()  		//LCD ili9341 用來顯示飛行器的資料
 {
 	while (system.status != SYSTEM_INITIALIZED);
@@ -245,7 +259,6 @@ void lcd_task()  		//LCD ili9341 用來顯示飛行器的資料
 	vTaskDelay(50);
 //while(1);
 	while(1){
-
 		int LCD_Roll = AngE.Roll;
 		int LCD_Pitch = AngE.Pitch;
 		int LCD_Yaw = AngE.Yaw;
@@ -305,11 +318,13 @@ int main(void) 		//主程式
 	system_init();
 	//系統初始化
 
-	vSemaphoreCreateBinary(serial_tx_wait_sem);
 	vSemaphoreCreateBinary(Ultrasonic_serial_tx_wait_sem);
+	vSemaphoreCreateBinary(serial_tx_wait_sem);
+	
 	//以Semaphore設定USART Tx, Rx初始設定
-	serial_rx_queue = xQueueCreate(5, sizeof(serial_msg));
-	Ultrasonic_serial_rx_queue = xQueueCreate(5, sizeof(serial_msg));
+	Ultrasonic_serial_rx_queue = xQueueCreate(10, sizeof(serial_msg));
+	serial_rx_queue = xQueueCreate(10, sizeof(serial_msg));
+	
 
 	/* IMU Initialization, Attitude Correction Flight Control */
 	xTaskCreate(check_task,
@@ -330,7 +345,12 @@ int main(void) 		//主程式
 	xTaskCreate(shell_task,
 		    (signed portCHAR *) "Shell",
 		    2048, NULL,
-		    tskIDLE_PRIORITY + 7, NULL);
+		    tskIDLE_PRIORITY + 8, NULL);
+
+	xTaskCreate(Ultrasonic_task,
+		    (signed portCHAR *) "Ultrasonic task Test",
+		    1024, NULL,
+		    tskIDLE_PRIORITY + 5, NULL);
 
 #if configNRF
 	xTaskCreate(nrf_sending_task,
@@ -340,10 +360,10 @@ int main(void) 		//主程式
 #endif
 
 	/* Shell command handling task */
-	xTaskCreate(watch_task,
-		    (signed portCHAR *) "Watch",
-		    1024, NULL,
-		    tskIDLE_PRIORITY + 7, &watch_task_handle);
+	// xTaskCreate(watch_task,
+	// 	    (signed portCHAR *) "Watch",
+	// 	    1024, NULL,
+	// 	    tskIDLE_PRIORITY + 7, &watch_task_handle);
 
 	/* Support LCD ili9341 */
 	xTaskCreate(lcd_task,

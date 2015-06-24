@@ -180,23 +180,20 @@ void shell_task()
 				vTaskDelay(100);
 			}
 #endif
+/***********************************************************************
+Test code for USART2,3
 
+//serial2.putc('2');
+//serial.putc('1');
 #if test_Ultrasonic	
 			while(1){
-				//char a;
-				serial2.putc('4');
-				us100_distant();
-				serial2.putc('5');
-				//a=serial2.getc();
-				//serial2.putc(a);
-
-				
-				serial2.putc(Ultrasonic.d);
-				//serial2.putc('5');
-				vTaskDelay(100);
+				//char a=1;
+				//serial.putc('U');
+				system.variable[TEST1].value=serial.getc();
+				vTaskDelay(20);
 			}
 #endif
-
+***********************************************************************/
 	}
 }
 /**** Customize command function ******************************************************/
