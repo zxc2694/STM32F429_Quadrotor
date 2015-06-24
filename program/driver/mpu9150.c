@@ -41,6 +41,7 @@ u8 MPU9150_Init(void)
 		Delay_1ms(10);
 	}
 
+#if USE_MPU9150_and_MS5611
 	/* AK8975 */
 	I2C_DMA_ReadReg(AK8975_I2C_ADDR, AK8975_WIA, ReadBuf, 1);
 
@@ -61,6 +62,13 @@ u8 MPU9150_Init(void)
 	Delay_1ms(10);
 	I2C_DMA_WriteReg(AK8975_I2C_ADDR, AK8975_Init_Data[2][1], AK8975_Init_Data[2], 1);
 	Delay_1ms(10);
+#endif	
+
+#if	USE_GY86
+	Mag.AdjustX = 1;
+	Mag.AdjustY = 1;
+	Mag.AdjustZ = 1;
+#endif
 
 	return SUCCESS;
 }
@@ -80,12 +88,14 @@ void MPU9150_Read(u8 *ReadBuf)
 
 	I2C_DMA_ReadReg(MPU6050_I2C_ADDR, MPU6050_ACCEL_XOUT_H, ReadBuf, 14);
 
+#if USE_MPU9150_and_MS5611
 	I2C_DMA_ReadReg(AK8975_I2C_ADDR, AK8975_ST1, &ReadData, 1);       // Wait Prapare Data
 
 	if (ReadData == 1) {
 		I2C_DMA_ReadReg(AK8975_I2C_ADDR, AK8975_HXL, ReadBuf + 14, 6);
 		I2C_DMA_WriteReg(AK8975_I2C_ADDR, AK8975_CNTL, &WriteData, 1);  // Set Single Measurement Mode
 	}
+#endif
 }
 /*==============================================================================================*/
 /*==============================================================================================*/

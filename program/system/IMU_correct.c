@@ -21,6 +21,7 @@ volatile uint32_t Correction_Time = 0;
 void sensor_read()
 {	// 讀取IMU數值
 
+#if USE_MPU9150_and_MS5611
 	uint8_t IMU_Buf[20] = {0};
 	static uint8_t BaroCnt = 0;
 
@@ -57,6 +58,45 @@ void sensor_read()
 		Mag.X *= Mag.AdjustX;
 		Mag.Y *= Mag.AdjustY;
 		Mag.Z *= Mag.AdjustZ;
+#endif
+
+#if	USE_GY86
+	uint8_t IMU_Buf[14] = {0};
+	static uint8_t BaroCnt = 0;
+
+	/* 500Hz, Read Sensor ( Accelerometer, Gyroscope, Magnetometer ) */
+	MPU9150_Read(IMU_Buf);
+	// 讀取加速規、陀螺儀、電子羅盤之值
+
+	BaroCnt++;//100Hz, Read Barometer
+
+	if (BaroCnt == SampleRateFreg / 100) {
+		MS5611_Read(&Baro, MS5611_D1_OSR_4096);
+		BaroCnt = 0;
+	}// 每讀取前述三個感測器 "SampleRateFreg / 100" 次，讀取氣壓計一次
+	
+		Acc.X  = (s16)((IMU_Buf[0]  << 8) | IMU_Buf[1]);
+		Acc.Y  = (s16)((IMU_Buf[2]  << 8) | IMU_Buf[3]);
+		Acc.Z  = (s16)((IMU_Buf[4]  << 8) | IMU_Buf[5]);
+		Temp.T = (s16)((IMU_Buf[6]  << 8) | IMU_Buf[7]);
+		Gyr.X  = (s16)((IMU_Buf[8]  << 8) | IMU_Buf[9]);
+		Gyr.Y  = (s16)((IMU_Buf[10] << 8) | IMU_Buf[11]);
+		Gyr.Z  = (s16)((IMU_Buf[12] << 8) | IMU_Buf[13]);
+
+		//從buffer讀取IMU之值	
+
+		/* Offset */
+		Acc.X -= Acc.OffsetX;
+		Acc.Y -= Acc.OffsetY;
+		Acc.Z -= Acc.OffsetZ;
+		Gyr.X -= Gyr.OffsetX;
+		Gyr.Y -= Gyr.OffsetY;
+		Gyr.Z -= Gyr.OffsetZ;
+
+#endif
+
+
+
 
 }
 
@@ -118,11 +158,13 @@ void correct_sensor()
 		Gyr.TrueX = Gyr.X * MPU9150G_2000dps; // dps/LSB
 		Gyr.TrueY = Gyr.Y * MPU9150G_2000dps; // dps/LSB
 		Gyr.TrueZ = Gyr.Z * MPU9150G_2000dps; // dps/LSB
+
+#if USE_MPU9150_and_MS5611
 		Mag.TrueX = Mag.X * MPU9150M_1200uT;  // uT/LSB
 		Mag.TrueY = Mag.Y * MPU9150M_1200uT;  // uT/LSB
 		Mag.TrueZ = Mag.Z * MPU9150M_1200uT;  // uT/LSB
 		Temp.TrueT = Temp.T * MPU9150T_85degC; // degC/LSB
-
+#endif
 		AngE.Pitch = toDeg(atan2f(Acc.TrueY, Acc.TrueZ));
 		AngE.Roll  = toDeg(-asinf(Acc.TrueX));
 		AngE.Yaw   = toDeg(atan2f(Mag.TrueX, Mag.TrueY)) + 180.0f;
@@ -147,10 +189,12 @@ void AHRS_and_RC_updata(int16_t *Thr, int16_t *Pitch, int16_t *Roll, int16_t *Ya
 	Gyr.X = (s16)MoveAve_WMA(Gyr.X, GYR_FIFO[0], 8);
 	Gyr.Y = (s16)MoveAve_WMA(Gyr.Y, GYR_FIFO[1], 8);
 	Gyr.Z = (s16)MoveAve_WMA(Gyr.Z, GYR_FIFO[2], 8);
+
+#if USE_MPU9150_and_MS5611
 	Mag.X = (s16)MoveAve_WMA(Mag.X, MAG_FIFO[0], 64);
 	Mag.Y = (s16)MoveAve_WMA(Mag.Y, MAG_FIFO[1], 64);
 	Mag.Z = (s16)MoveAve_WMA(Mag.Z, MAG_FIFO[2], 64);
-
+#endif
 	/* To Physical */
 	Acc.TrueX = Acc.X * MPU9150A_4g;      // g/LSB
 	Acc.TrueY = Acc.Y * MPU9150A_4g;      // g/LSB
@@ -158,11 +202,13 @@ void AHRS_and_RC_updata(int16_t *Thr, int16_t *Pitch, int16_t *Roll, int16_t *Ya
 	Gyr.TrueX = Gyr.X * MPU9150G_2000dps; // dps/LSB
 	Gyr.TrueY = Gyr.Y * MPU9150G_2000dps; // dps/LSB
 	Gyr.TrueZ = Gyr.Z * MPU9150G_2000dps; // dps/LSB
+
+#if USE_MPU9150_and_MS5611
 	Mag.TrueX = Mag.X * MPU9150M_1200uT;  // uT/LSB
 	Mag.TrueY = Mag.Y * MPU9150M_1200uT;  // uT/LSB
 	Mag.TrueZ = Mag.Z * MPU9150M_1200uT;  // uT/LSB
 	Temp.TrueT = Temp.T * MPU9150T_85degC; // degC/LSB
-
+#endif
 	system.variable[ACCX].value = Acc.TrueX;
 	system.variable[ACCY].value = Acc.TrueY;
 	system.variable[ACCZ].value = Acc.TrueZ;
