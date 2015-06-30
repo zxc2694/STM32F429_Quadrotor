@@ -233,7 +233,7 @@ void nrf_sending_task() 			//將資料經由nrf傳輸出去
 void Ultrasonic_task()
 {
 	while(1){
-		print_us100_distant(); 
+		print_us100_distance(); 
 	}
 }
 
