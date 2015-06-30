@@ -104,7 +104,8 @@ SERIAL serial2 = {
 	.getc = Ultrasonic_getc_base,
 	.putc = Ultrasonic_putc_base,
 	.gets = Ultrasonic_gets_base,
-	.puts = Ultrasonic_puts_base
+	.puts = Ultrasonic_puts_base,
+	.printf = Ultrasonic_printf_base
 };
 
 /**
@@ -171,7 +172,7 @@ int Ultrasonic_gets_base(void)
 {
 	char str;
 	str = serial2.getc();
-	serial.printf("%c", str);
+	serial2.printf("%c", str);
 	return 1;
 }
 
@@ -247,6 +248,58 @@ int printf_base(const char *format, ...)
 
 	va_end(para);
 	serial.puts(str);
+	return 1;
+}
+
+int Ultrasonic_printf_base(const char *format, ...)
+{
+	char str[128];
+	va_list para;
+	va_start(para, format);
+	int curr_pos = 0;
+	char ch[] = {'0', '\0'};
+	char integer[11];
+	str[0] = '\0';
+
+	while (format[curr_pos] != '\0') {
+		if (format[curr_pos] != '%') {
+			ch[0] = format[curr_pos];
+			strcat(str, ch);
+
+		} else {
+			switch (format[++curr_pos]) {
+			case 's':
+				strcat(str, va_arg(para, char *));
+				break;
+
+			case 'c':
+				ch[0] = (char)va_arg(para, int);
+				strcat(str, ch);
+				break;
+
+			case 'i':
+			case 'f':
+				strcat(str, ftoa(va_arg(para, double)));
+				break;
+
+			case 'd':
+				strcat(str, itoa(va_arg(para, int), integer));
+				break;
+
+			case 'u':
+				strcat(str, itoa(va_arg(para, unsigned), integer));
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		curr_pos++;
+	}
+
+	va_end(para);
+	serial2.puts(str);
 	return 1;
 }
 
