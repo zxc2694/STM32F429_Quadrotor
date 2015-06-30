@@ -96,13 +96,6 @@ void shell_task()
 		linenoiseHistoryAdd(shell_str);
 #endif
 
-		//Show two values to gui2.py 
-#if configSTATUS_GET_ROLL_PITCH
-			while(1){
-				serial.printf("%f %f\n\r", AngE.Roll, AngE.Pitch);
-				vTaskDelay(100);
-			}
-#endif
 		//Show two values to gui3.py 
 #if configSTATUS_GET_ROLL_PITCH_YAW	
 			while(1){
@@ -120,13 +113,6 @@ void shell_task()
 					     );
 				vTaskDelay(100);
 			}
-/*			while(1){
-				serial.printf("\n\r%f %f %f %f ",
-					      system.variable[TEST1].value, system.variable[TEST2].value,
-					      system.variable[TEST3].value, system.variable[TEST4].value
-					     );
-				vTaskDelay(100);
-			}*/
 #endif
 
 		//Show six values to gui6.py
@@ -148,12 +134,6 @@ void shell_task()
 					      system.variable[MAGZ].value);
 				vTaskDelay(100);
 			}
-/*			while(1){
-				serial.printf("%f %f %f \n\r",
-					      system.variable[TEST1].value, system.variable[TEST2].value,
-					      system.variable[TEST3].value);
-				vTaskDelay(100);
-			}*/
 #endif	
 
 #if configSTATUS_GET_ACC
@@ -174,26 +154,6 @@ void shell_task()
 			}
 #endif
 
-#if test_USART2	
-			while(1){
-				serial2.putc('a');
-				vTaskDelay(100);
-			}
-#endif
-/***********************************************************************
-Test code for USART2,3
-
-//serial2.putc('2');
-//serial.putc('1');
-#if test_Ultrasonic	
-			while(1){
-				//char a=1;
-				//serial.putc('U');
-				system.variable[TEST1].value=serial.getc();
-				vTaskDelay(20);
-			}
-#endif
-***********************************************************************/
 	}
 }
 /**** Customize command function ******************************************************/

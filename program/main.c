@@ -134,10 +134,10 @@ void flightControl_task()  		//飛行控制
 			//從感測器獲取訊號並經過濾波處理後計算出roll、pitch、yaw、throttle、safety訊號
 			
 			/* Motor Ctrl */
-			Final_M1 = Thr + Pitch - Roll + Yaw + adjustmentMotor1; //moonbear: - Yaw
-			Final_M2 = Thr + Pitch + Roll - Yaw + adjustmentMotor2; //moonbear: + Yaw
-			Final_M3 = Thr - Pitch + Roll + Yaw + adjustmentMotor3; //moonbear: - Yaw
-			Final_M4 = Thr - Pitch - Roll - Yaw + adjustmentMotor4; //moonbear: + Yaw
+			Final_M1 = Thr + Pitch - Roll + Yaw ; //moonbear: - Yaw
+			Final_M2 = Thr + Pitch + Roll - Yaw ; //moonbear: + Yaw
+			Final_M3 = Thr - Pitch + Roll + Yaw ; //moonbear: - Yaw
+			Final_M4 = Thr - Pitch - Roll - Yaw ; //moonbear: + Yaw
 			//將前述所得之roll、pitch、yaw、throttle、safety計算
 
 			system.variable[MOTOR1].value = Final_M1;
@@ -192,7 +192,6 @@ void check_task()	//檢查是否要用到遙控器、並叫醒correction_task_ha
 
 void nrf_sending_task() 			//將資料經由nrf傳輸出去
 {
-#if configSTATUS_NRF
 	char buf[128] = {0};
 	nrf_package package;
 
@@ -218,8 +217,6 @@ void nrf_sending_task() 			//將資料經由nrf傳輸出去
 		nrf_send_package((uint8_t *)buf);
 		//並將此package壓至buffer內
 	}
-#endif
-
 }
 
 void Ultrasonic_task()
