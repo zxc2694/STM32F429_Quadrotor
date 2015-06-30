@@ -230,17 +230,10 @@ void nrf_sending_task() 			//將資料經由nrf傳輸出去
 
 }
 
-char a=0;
-void Ultrasonic_task(){
-//	while (system.status != SYSTEM_INITIALIZED);
-
+void Ultrasonic_task()
+{
 	while(1){
-		a=serial2.getc();
-	vTaskDelay(20);
-	a++;
-		serial.putc(a);
-		vTaskDelay(20);
-
+		print_us100_distant(); 
 	}
 }
 
@@ -350,7 +343,7 @@ int main(void) 		//主程式
 	xTaskCreate(Ultrasonic_task,
 		    (signed portCHAR *) "Ultrasonic task Test",
 		    1024, NULL,
-		    tskIDLE_PRIORITY + 5, NULL);
+		    tskIDLE_PRIORITY + 8, NULL);
 
 #if configNRF
 	xTaskCreate(nrf_sending_task,
