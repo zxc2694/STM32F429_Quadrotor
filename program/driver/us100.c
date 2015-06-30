@@ -2,6 +2,10 @@
 /*==============================================================================================*/
 #include "QuadCopterConfig.h"
 
+/* Connection methods of Ultrasonic */
+#define ULT_USE_UART2	1
+#define ULT_USE_PWM		0
+
 Ultrasonic_t Ultrasonic = {
 	.lenHigh = 0,
 	.lenLow = 0,
@@ -11,26 +15,27 @@ Ultrasonic_t Ultrasonic = {
 /*==============================================================================================*/
 /*==============================================================================================*
 **函數 : us100_distant
-**功能 : get 1 calculated distant data from the data received by USART
+**功能 : get 1 calculated distant data from the data received by USART 
 **輸入 : Ultrasonic.lenHigh, Ultrasonic.lenLow 
 **輸出 : Ultrasonic.d (mm)
-**使用 : us100_distant();
+**使用 : print_us100_distant();
 **==============================================================================================*/
 /*==============================================================================================*/
-void us100_distant(){
+void print_us100_distant(){
 
-	//reading data
+#if ULT_USE_UART2
 
-	serial.putc('U');
-	serial2.putc('1');
-	//vTaskDelay(500);
+	serial2.putc('U');
+	vTaskDelay(500);
+	 
+	Ultrasonic.lenHigh = serial2.getc();
+	Ultrasonic.lenLow = serial2.getc();
+	Ultrasonic.d = (Ultrasonic.lenHigh*256 + Ultrasonic.lenLow)*0.1;
 
-	//calculating the distance
-	//if(serial2.getc()){
-		Ultrasonic.lenHigh = serial.getc();
-		serial2.putc('2');
-		Ultrasonic.lenLow = serial.getc();
-		serial2.putc('3');
-		Ultrasonic.d = Ultrasonic.lenHigh*256 + Ultrasonic.lenLow;
-	//}
+	serial.printf("Distance: ");
+	serial.printf("%d",Ultrasonic.d);
+	serial.printf(" cm\n\r");
+	vTaskDelay(30);
+#endif
+	
 }
