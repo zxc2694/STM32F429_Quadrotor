@@ -134,10 +134,10 @@ void flightControl_task()  		//飛行控制
 			//從感測器獲取訊號並經過濾波處理後計算出roll、pitch、yaw、throttle、safety訊號
 			
 			/* Motor Ctrl */
-			Final_M1 = Thr + Pitch - Roll + Yaw ; //moonbear: - Yaw
-			Final_M2 = Thr + Pitch + Roll - Yaw ; //moonbear: + Yaw
-			Final_M3 = Thr - Pitch + Roll + Yaw ; //moonbear: - Yaw
-			Final_M4 = Thr - Pitch - Roll - Yaw ; //moonbear: + Yaw
+			Final_M1 = Thr + Pitch - Roll + Yaw + system.variable[Zd].value; //moonbear: - Yaw
+			Final_M2 = Thr + Pitch + Roll - Yaw + system.variable[Zd].value; //moonbear: + Yaw
+			Final_M3 = Thr - Pitch + Roll + Yaw + system.variable[Zd].value; //moonbear: - Yaw
+			Final_M4 = Thr - Pitch - Roll - Yaw + system.variable[Zd].value; //moonbear: + Yaw
 			//將前述所得之roll、pitch、yaw、throttle、safety計算
 
 			system.variable[MOTOR1].value = Final_M1;
@@ -221,8 +221,21 @@ void nrf_sending_task() 			//將資料經由nrf傳輸出去
 
 void Ultrasonic_task()
 {
-	while(1){
+	vertical_pid_t* PID_Zd;
+
+	PID_Zd -> kp =0.30f;
+	PID_Zd -> kd =0.0;
+	PID_Zd -> ki =0.0;
+	PID_Zd -> out_max = +20.0f;
+	PID_Zd -> out_min = -20.0f;
+	PID_Zd -> setpoint =0.0;
+	PID_Zd -> controller_status == CONTROLLER_ENABLE;
+	
+	while(1){		
 		print_us100_distance(); 
+		PID_vertical_Zd(&PID_Zd,Ultrasonic.d);
+
+		system.variable[Zd].value = PID_Zd -> output; 
 	}
 }
 

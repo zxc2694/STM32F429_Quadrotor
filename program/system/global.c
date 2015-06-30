@@ -23,7 +23,7 @@ global_t variable[] = {
 	[TRUE_ROLL] = {.name = "imu.roll"},
 	[TRUE_YAW] = {.name = "imu.yaw"},
 	[BAROMETER] = {.name = "imu.barometer"},
-
+	[Zd] = {.name = "PID output of vertical value"},
 
 	[ACCX] = {.name = "imu.accX"},
 	[ACCY] = {.name = "imu.accY"},
