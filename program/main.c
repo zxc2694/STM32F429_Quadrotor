@@ -38,9 +38,10 @@ void system_init(void)
 	Motor_Config();
 	PWM_Capture_Config();
 
-	//IMU Config
-	Sensor_Config();
-	//IMU初始配置程式
+#if configSensor
+	Sensor_Config(); //IMU初始配置程式
+	while (Sensor_Init() == ERROR); 
+#endif	
 
 #if configNRF  		// 若configNRF為1才執行調用
 	nRF24L01_Config();
@@ -64,8 +65,7 @@ void system_init(void)
 	while (nRF_Check() == ERROR);
 #endif	
 
-	/* Sensor Init */
-	while (Sensor_Init() == ERROR);
+	
 
 	Delay_10ms(10);
 

@@ -10,6 +10,7 @@
 #define USE_GY86 0
 /* Hardware environments */
 #define configRemoteControl				0       //if you no connect motor -> set 0. 
+#define configSensor			0
 #define configSD				0       //if you no connect SD card -> set 0.
 #define configNRF				0       //if you no connect nRF module -> set 0.
 /* Status report functions */
