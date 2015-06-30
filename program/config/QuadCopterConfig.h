@@ -9,11 +9,11 @@
 #define USE_MPU9150_and_MS5611 1
 #define USE_GY86 0
 /* Hardware environments */
-#define configRemoteControl				0       //if you no connect motor -> set 0. 
-#define configSensor			0
-#define configSD				0       //if you no connect SD card -> set 0.
-#define configNRF				0       //if you no connect nRF module -> set 0.
-#define configULTRANSONIC		0
+#define configRemoteControl			0       //if you didn't connect motor -> set 0. 
+#define configSensor				1       //if you didn't connect sensor -> set 0. 
+#define configSD					0       //if you didn't connect SD card -> set 0.
+#define configNRF					0       //if you didn't connect nRF module -> set 0.
+#define configULTRANSONIC			0       //if you didn't connect ultransonic -> set 0. 
 /* Status report functions */
 #define configSTATUS_NRF		0
 #define configSTATUS_SHELL		1
