@@ -335,7 +335,7 @@ int main(void) 		//主程式
 	xTaskCreate(Ultrasonic_task,
 		    (signed portCHAR *) "Ultrasonic task Test",
 		    1024, NULL,
-		    tskIDLE_PRIORITY + 8, NULL);
+		    tskIDLE_PRIORITY + 9, NULL);
 
 #if configNRF
 	xTaskCreate(nrf_sending_task,
