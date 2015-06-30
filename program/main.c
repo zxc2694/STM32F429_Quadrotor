@@ -43,12 +43,13 @@ void system_init(void)
 	while (Sensor_Init() == ERROR); 
 #endif	
 
-#if configNRF  		// 若configNRF為1才執行調用
-	nRF24L01_Config();
+#if configNRF  	
+	nRF24L01_Config(); //nRF24L01初始配置程式
+	while (nRF_Check() == ERROR);
 #endif	
 
 #if configSD
-	SD_Init();
+	SD_Init(); //SD card初始配置程式
 #endif	
 
 	PID_Init(&PID_Pitch, 4.0, 0.0, 1.5);
@@ -59,16 +60,7 @@ void system_init(void)
 	Delay_10ms(10);
 
 	Motor_Control(PWM_MOTOR_MIN, PWM_MOTOR_MIN, PWM_MOTOR_MIN, PWM_MOTOR_MIN);
-
-#if configNRF
-	/* nRF Check */
-	while (nRF_Check() == ERROR);
-#endif	
-
 	
-
-	Delay_10ms(10);
-
 	/* Lock */
 	SetLED(LED_R, DISABLE);
 	SetLED(LED_G, ENABLE);
