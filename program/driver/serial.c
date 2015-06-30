@@ -310,7 +310,7 @@ void USART2_IRQHandler()
 {
 	long lHigherPriorityTaskWoken = pdFALSE;
 
-	serial_msg rx_msg;
+	serial_msg rx_msg2;
 
 	if (USART_GetITStatus(USART2, USART_IT_TXE) != RESET) {
 		xSemaphoreGiveFromISR(Ultrasonic_serial_tx_wait_sem, &lHigherPriorityTaskWoken);
@@ -318,9 +318,9 @@ void USART2_IRQHandler()
 		USART_ITConfig(USART2, USART_IT_TXE, DISABLE);
 
 	} else if (USART_GetITStatus(USART2, USART_IT_RXNE) != RESET) {
-		rx_msg.ch = USART_ReceiveData(USART2);
+		rx_msg2.ch = USART_ReceiveData(USART2);
 
-		if (!xQueueSendToBackFromISR(Ultrasonic_serial_rx_queue, &rx_msg, &lHigherPriorityTaskWoken))
+		if (!xQueueSendToBackFromISR(Ultrasonic_serial_rx_queue, &rx_msg2, &lHigherPriorityTaskWoken))
 			portEND_SWITCHING_ISR(lHigherPriorityTaskWoken);
 
 	} else {

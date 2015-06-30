@@ -37,5 +37,5 @@ void print_us100_distant(){
 	serial.printf(" cm\n\r");
 	vTaskDelay(30);
 #endif
-	
+
 }
