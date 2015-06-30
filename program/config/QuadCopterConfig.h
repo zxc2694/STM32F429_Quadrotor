@@ -13,6 +13,7 @@
 #define configSensor			0
 #define configSD				0       //if you no connect SD card -> set 0.
 #define configNRF				0       //if you no connect nRF module -> set 0.
+#define configULTRANSONIC		0
 /* Status report functions */
 #define configSTATUS_NRF		0
 #define configSTATUS_SHELL		1

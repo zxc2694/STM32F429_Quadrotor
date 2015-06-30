@@ -332,10 +332,12 @@ int main(void) 		//主程式
 		    2048, NULL,
 		    tskIDLE_PRIORITY + 8, NULL);
 
+#if configULTRANSONIC
 	xTaskCreate(Ultrasonic_task,
 		    (signed portCHAR *) "Ultrasonic task Test",
 		    1024, NULL,
 		    tskIDLE_PRIORITY + 9, NULL);
+#endif
 
 #if configNRF
 	xTaskCreate(nrf_sending_task,
