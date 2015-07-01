@@ -329,10 +329,10 @@ int main(void) 		//主程式
 #endif
 
 	/* Shell command handling task */
-	// xTaskCreate(watch_task,
-	// 	    (signed portCHAR *) "Watch",
-	// 	    1024, NULL,
-	// 	    tskIDLE_PRIORITY + 7, &watch_task_handle);
+	xTaskCreate(watch_task,
+ 		    (signed portCHAR *) "Watch",
+	 	    1024, NULL,
+	 	    tskIDLE_PRIORITY + 7, &watch_task_handle);
 
 	/* Support LCD ili9341 */
 	xTaskCreate(lcd_task,
