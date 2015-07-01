@@ -26,7 +26,7 @@ void print_us100_distance(){
 #if ULT_USE_UART2
 
 	serial2.putc('U');
-	vTaskDelay(500);
+	vTaskDelay(70);
 	 
 	Ultrasonic.lenHigh = serial2.getc();
 	Ultrasonic.lenLow = serial2.getc();
