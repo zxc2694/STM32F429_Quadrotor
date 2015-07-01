@@ -281,4 +281,5 @@ void PID_vertical_Zd(vertical_pid_t* PID_control, float *vertical_data)
 		PID_control -> integral = 0.0f;
 		PID_control -> output =0.0f;
 	}
+	system.variable[Zd].value = PID_control -> output; 
 }

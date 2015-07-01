@@ -52,11 +52,12 @@ void system_init(void)
 	SD_Init(); //SD card初始配置程式
 #endif	
 
-	PID_Init(&PID_Pitch, 4.0, 0.0, 1.5);
+	PID_Init(&PID_Pitch, 4.0, 0.0, 1.5); //PID參數設定
 	PID_Init(&PID_Roll, 4.0, 0.0, 1.5);
 	PID_Init(&PID_Yaw, 5.0, 0.0, 15.0);
-	//設定PID
 
+	PID_Zd.controller_status = CONTROLLER_ENABLE; //開啟高度控制
+		
 	Delay_10ms(10);
 
 	Motor_Control(PWM_MOTOR_MIN, PWM_MOTOR_MIN, PWM_MOTOR_MIN, PWM_MOTOR_MIN);
@@ -127,12 +128,14 @@ void flightControl_task()  		//飛行控制
 		int16_t Thr = 0, Pitch = 0, Roll = 0, Yaw = 0;
 		int16_t safety = 0;
 
+		
 		sensor_read();
 		if (SensorMode == Mode_Algorithm) {
 			
-			AHRS_and_RC_updata(&Thr, &Pitch, &Roll, &Yaw, &safety);
-			//從感測器獲取訊號並經過濾波處理後計算出roll、pitch、yaw、throttle、safety訊號
+			AHRS_and_RC_updata(&Thr, &Pitch, &Roll, &Yaw, &safety);//從感測器獲取訊號並經過濾波處理後計算出roll、pitch、yaw、throttle、safety訊號
 			
+/////////// PID_vertical_Zd(&PID_Zd,Ultrasonic.d);//執行高度校正演算法 
+
 			/* Motor Ctrl */
 			Final_M1 = Thr + Pitch - Roll + Yaw + system.variable[Zd].value; //moonbear: - Yaw
 			Final_M2 = Thr + Pitch + Roll - Yaw + system.variable[Zd].value; //moonbear: + Yaw
@@ -221,21 +224,8 @@ void nrf_sending_task() 			//將資料經由nrf傳輸出去
 
 void Ultrasonic_task()
 {
-	vertical_pid_t* PID_Zd;
-
-	PID_Zd -> kp =0.30f;
-	PID_Zd -> kd =0.0;
-	PID_Zd -> ki =0.0;
-	PID_Zd -> out_max = +20.0f;
-	PID_Zd -> out_min = -20.0f;
-	PID_Zd -> setpoint =0.0;
-	PID_Zd -> controller_status == CONTROLLER_ENABLE;
-	
 	while(1){		
-		print_us100_distance(); 
-		PID_vertical_Zd(&PID_Zd,Ultrasonic.d);
-
-		system.variable[Zd].value = PID_Zd -> output; 
+		print_us100_distance(); 		
 	}
 }
 

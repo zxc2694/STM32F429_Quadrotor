@@ -19,9 +19,20 @@ typedef struct {
 	float OutMin;
 } PID_t;
 
+typedef struct vertical_pid_t {
+	float kp,ki,kd;
+	float integral;
+	float setpoint;
+	float output;
+	float out_max, out_min;
+	float integral_max;
+	uint8_t controller_status;
+} vertical_pid_t;
+
 extern PID_t PID_Yaw;
 extern PID_t PID_Roll;
 extern PID_t PID_Pitch;
+extern vertical_pid_t PID_Zd;
 
 void PID_Init(PID_t *PID, float Kp, float Ki, float Kd);
 
