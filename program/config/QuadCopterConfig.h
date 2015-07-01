@@ -1,6 +1,10 @@
 #ifndef __QUADCOPTER_CONFIG_H
 #define __QUADCOPTER_CONFIG_H
 
+/* Flight Control Board */
+#define Use_QCopter_board	0
+#define Use_stm32f407_board 0
+#define Use_stm32f429_board 1
 /*Radio control*/
 #define USE_FUTABA_CONTROLLER		0
 #define USE_WFLY_CONTROLLER		1
