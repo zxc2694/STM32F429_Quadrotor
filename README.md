@@ -26,7 +26,7 @@ STM32F429_Quadrotor
 
   PB10 - `USART3(Tx)`   PB11 - `USART3(Rx)`
   
-  <img src = "http://i.imgur.com/llzftbI.png" width=900>
+  <img src = "http://i.imgur.com/yOCn2Op.png" width=900>
 
 
 ## License
