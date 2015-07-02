@@ -24,6 +24,7 @@ global_t variable[] = {
 	[TRUE_YAW] = {.name = "imu.yaw"},
 	[BAROMETER] = {.name = "imu.barometer"},
 	[Zd] = {.name = "PID output of vertical value"},
+	[Dis] = {.name = "vertical distance"},
 
 	[ACCX] = {.name = "imu.accX"},
 	[ACCY] = {.name = "imu.accY"},

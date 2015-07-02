@@ -32,9 +32,11 @@ void print_us100_distance(){
 	Ultrasonic.lenLow = serial2.getc();
 	Ultrasonic.d = (Ultrasonic.lenHigh*256 + Ultrasonic.lenLow)*0.1;
 
-	serial.printf("Distance: ");
-	serial.printf("%d",Ultrasonic.d);
-	serial.printf(" cm\n\r");
+	system.variable[Dis].value = Ultrasonic.d;
+
+//	serial.printf("Distance: ");
+//	serial.printf("%d",Ultrasonic.d);
+//	serial.printf(" cm\n\r");
 	vTaskDelay(30);
 #endif
 

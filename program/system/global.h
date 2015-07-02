@@ -39,6 +39,7 @@ enum {
 	MAGZ,
 	BAROMETER,
 	Zd,
+	Dis,
 	SYS_VAR_CNT
 };
 
