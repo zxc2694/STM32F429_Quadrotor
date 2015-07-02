@@ -20,7 +20,7 @@ void AHRS_Init(Quaternion *pNumQ, EulerAngle *pAngE)
 
 void AHRS_Update(void)
 {
-	float tempX = 0, tempY = 0;
+//	float tempX = 0, tempY = 0;
 	float Normalize;
 	float gx, gy, gz;
 // float hx, hy, hz;

@@ -17,6 +17,7 @@ void shell_watch(char parameter[][MAX_CMD_LEN], int par_cnt);
 void shell_gui_test(char parameter[][MAX_CMD_LEN], int par_cnt);
 void shell_tuning(char parameter[][MAX_CMD_LEN], int par_cnt);
 void shell_showData(char parameter[][MAX_CMD_LEN], int par_cnt);
+void shell_vertialPoint(char parameter[][MAX_CMD_LEN], int par_cnt);
 
 /* The identifier of the command */
 enum SHELL_CMD_ID {
@@ -32,6 +33,7 @@ enum SHELL_CMD_ID {
 	gui_test_ID,
 	tuning_ID,
 	showData_ID,
+	vertialPoint_ID,
 	SHELL_CMD_CNT
 };
 
@@ -48,7 +50,8 @@ command_list shellCmd_list[SHELL_CMD_CNT] = {
 	CMD_DEF(gui_test, shell),
 	CMD_DEF(watch, shell),
 	CMD_DEF(tuning, shell),
-	CMD_DEF(showData, shell)
+	CMD_DEF(showData, shell),
+	CMD_DEF(vertialPoint, shell)
 };
 
 /**** Shell task **********************************************************************/
@@ -174,17 +177,34 @@ void shell_help(char parameter[][MAX_CMD_LEN], int par_cnt)
 	serial.printf("The QCopterFlightControl is based on Hom19910422's version\n\r");
 
 	serial.printf("\n\rSupport commands:\n\r");
-	serial.printf("clear  \tClear the screan\n\r");
-	serial.printf("help \tShow the list of all commands\n\r");
-	serial.printf("monitor The QuadCopter Status monitor\n\r");
-	serial.printf("sdinfo\tShow SD card informations.\n\r");
-	serial.printf("sdsave\tSave PID informations in the SD card.\n\r");
-	serial.printf("watch\tDisplay attitudes and motors PWM\n\r");
-	serial.printf("tuning\ttuning the PD gains\n\r");
-	serial.printf("showData Display all data\n\r");
+	serial.printf("clear\t\tClear the screen\n\r");
+	serial.printf("help\t\tShow the list of all commands\n\r");
+	serial.printf("monitor\t\tThe QuadCopter Status monitor\n\r");
+	serial.printf("sdinfo\t\tShow SD card informations.\n\r");
+	serial.printf("sdsave\t\tSave PID informations in the SD card.\n\r");
+	serial.printf("watch\t\tDisplay attitudes and motors PWM\n\r");
+	serial.printf("tuning\t\ttuning the PD gains\n\r");
+	serial.printf("showData\tDisplay all data\n\r");
+	serial.printf("vertialPoint\tLock the vertical point of flight control\n\r");
 	serial.printf("\n\r");
 }
 
+void shell_vertialPoint(char parameter[][MAX_CMD_LEN], int par_cnt)
+{
+	PID_Zd.setpoint = Ultrasonic.d; //設定定位點
+	PID_Zd.controller_status = CONTROLLER_ENABLE; //開啟高度控制
+	
+
+	while(1){
+		serial.printf("Set: %f cm, D: %fcm\tZd: %f\n\r", PID_Zd.setpoint, system.variable[Dis].value, system.variable[Zd].value);
+		vTaskDelay(20);
+
+		if(serial.getc() == 'q'){
+			PID_Zd.controller_status = CONTROLLER_DISABLE;
+			break;
+		} 
+    }
+}
 void shell_sdinfo(char parameter[][MAX_CMD_LEN], int par_cnt)
 {
 	serial.printf("-----SD Init Info-----\r\n");
