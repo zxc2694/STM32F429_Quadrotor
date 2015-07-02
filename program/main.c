@@ -55,8 +55,6 @@ void system_init(void)
 	PID_Init(&PID_Pitch, 4.0, 0.0, 1.5); //PID參數設定
 	PID_Init(&PID_Roll, 4.0, 0.0, 1.5);
 	PID_Init(&PID_Yaw, 5.0, 0.0, 15.0);
-
-	PID_Zd.controller_status = CONTROLLER_ENABLE; //開啟高度控制
 		
 	Delay_10ms(10);
 
@@ -134,7 +132,7 @@ void flightControl_task()  		//飛行控制
 			
 			AHRS_and_RC_updata(&Thr, &Pitch, &Roll, &Yaw, &safety);//從感測器獲取訊號並經過濾波處理後計算出roll、pitch、yaw、throttle、safety訊號
 			
-/////////// PID_vertical_Zd(&PID_Zd,Ultrasonic.d);//執行高度校正演算法 
+ 			PID_vertical_Zd();//執行PI控制高度校正 
 
 			/* Motor Ctrl */
 			Final_M1 = Thr + Pitch - Roll + Yaw + system.variable[Zd].value; //moonbear: - Yaw

@@ -252,34 +252,34 @@ void AHRS_and_RC_updata(int16_t *Thr, int16_t *Pitch, int16_t *Roll, int16_t *Ya
 
 	if (AngE.Yaw > 180.0f) 
 		AngE.Yaw=AngE.Yaw-360;
-//	system.variable[TEST1].value = AngE.Yaw;
 
 	*safety = Safety;
 }
 
-#define LOOP_DT  (0.00025f)
+//#define LOOP_DT  (0.00025f)
 
-void PID_vertical_Zd(vertical_pid_t* PID_control, float *vertical_data)
+void PID_vertical_Zd()
 {
 	/* 高度控制程式 */
-	if( PID_control -> controller_status == CONTROLLER_ENABLE){
+	float vertical_data, error, P;
+	vertical_data = system.variable[Dis].value;
 
-		float error = (PID_control -> setpoint) - (*vertical_data);
+	if( PID_Zd.controller_status == CONTROLLER_ENABLE ){
 
-		float P = error * (PID_control -> kp);
+		error = PID_Zd.setpoint - vertical_data;
+		P = error * PID_Zd.kp;
 
-		PID_control -> integral += (error * (PID_control -> ki)) * LOOP_DT;
+//		PID_Zd.integral += (error * (PID_Zd.ki))* LOOP_DT;
+		PID_Zd.integral += (error * PID_Zd.ki);
+		PID_Zd.integral = bound_float(PID_Zd.integral,-20.0f,+20.0f);
 
-		PID_control -> integral = bound_float(PID_control -> integral,-20.0f,+20.0f);
+		PID_Zd.output = P + PID_Zd.integral;
 
-		(PID_control -> output) = P+(PID_control -> integral);
-
-		PID_control -> output = bound_float(PID_control -> output,PID_control -> out_min,PID_control -> out_max);
-
-	}else{
-
-		PID_control -> integral = 0.0f;
-		PID_control -> output =0.0f;
+		PID_Zd.output = bound_float(PID_Zd.output,PID_Zd.out_min,PID_Zd.out_max);
+		system.variable[Zd].value = PID_Zd.output; 
 	}
-	system.variable[Zd].value = PID_control -> output; 
+	else{
+		PID_Zd.integral = 0.0f;
+		PID_Zd.output =0.0f;
+	}
 }

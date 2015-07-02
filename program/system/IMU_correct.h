@@ -9,5 +9,5 @@
 void sensor_read();
 void correct_sensor();
 void AHRS_and_RC_updata(int16_t *Thr, int16_t *Pitch, int16_t *Roll, int16_t *Yaw, int16_t *safety);
-void PID_vertical_Zd(vertical_pid_t* , float *vertical_data);
+void PID_vertical_Zd();
 #endif
