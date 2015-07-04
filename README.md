@@ -8,6 +8,9 @@ STM32F429_Quadrotor
 
 <img src = "https://lh5.googleusercontent.com/-ox-Q230u9II/VVwGDFMxlaI/AAAAAAAABPo/IFKrzYnNl2M/w1032-h595-no/%25E6%259C%25AA%25E5%2591%25BD%25E5%2590%258D.png" width=600>
 
+  <img src = "http://i.imgur.com/bF1zsjb.png" width=600>
+
+
 ## Connection pins
 
 * [Input signal] R/C remote control:
