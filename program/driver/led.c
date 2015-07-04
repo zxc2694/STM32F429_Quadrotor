@@ -34,7 +34,7 @@ void LED_Config(void)
 
 #if Use_stm32f429_board
 	GPIO_InitTypeDef GPIO_InitStruct = {
-		.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14,
+		.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15,
 		.GPIO_Mode = GPIO_Mode_OUT,
 		.GPIO_Speed = GPIO_Speed_50MHz,
 		.GPIO_OType =GPIO_OType_PP,
