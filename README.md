@@ -12,22 +12,6 @@ STM32F429_Quadrotor
 
 
 ## Connection pins
-
-* [Input signal] R/C remote control:
-
-  PB6 - `PWM1 (Roll)`  PB7 - `PWM2 (Pitch)`   PA0 - `PWM3 (Thrust)`   PA2 - `PWM4 (Yaw)`   PA3 - `PWM5 (Safety)`
-
-* [Output signal] Motors:
-
-  PA6 - `PWM9 (motor1)`   PA7 - `PWM10 (motor2)`   PB0 - `PWM11 (motor3)`    PB1 - `PWM12 (motor4)`
-  
-* [IMU] mpu9150 & ms5611:
-
-  PC3 - `INT`   PB8 - `SCL`   PB9 - `SDA`   
-  
-* [Ground station]:
-
-  PB10 - `USART3(Tx)`   PB11 - `USART3(Rx)`
   
   <img src = "http://i.imgur.com/yOCn2Op.png" width=900>
 
