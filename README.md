@@ -36,12 +36,14 @@ STM32F429_Quadrotor
 
 * The [QCopterFlightControl](https://github.com/Hom19910422/QCopterFlightControl) project is copyrighted by [Hom19910422](Hom19910422@gmail.com) and governed by MIT license.
 
+* This project references [UrsusPilot](https://github.com/UrsusPilot), which is copyrighted under MIT license.
 
 * The [lineoise](https://github.com/antirez/linenoise) is copyrighted under BSD license and release by [antirez](antirez@gmail.com)
 
 * Detailed license file can be found in `LICENSE`.
 
 * The [STM32F429_Quadrotor](https://github.com/zxc2694/ICLab_Quadrotor) is released as MIT License and welcome to send any feedback to us!
+
 
 ## Features
 
