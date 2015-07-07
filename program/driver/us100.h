@@ -9,3 +9,4 @@ typedef struct {
 extern Ultrasonic_t Ultrasonic;
 
 void print_us100_distance();
+void us100_config();

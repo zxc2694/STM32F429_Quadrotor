@@ -6,6 +6,9 @@
 #define ENABLE 1
 #define DISABLE 0
 
+#define GPIO_HIGH 1
+#define GPIO_LOW 0
+
 #if (Use_QCopter_board || Use_stm32f407_board)
 
 #define KEY   PBI(2)
@@ -28,3 +31,4 @@ void SetLED(int LED, int state);
 void LED_Toggle(int LED);
 
 #endif
+
