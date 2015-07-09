@@ -16,7 +16,7 @@ STM32F429_Quadrotor
   <img src = "http://i.imgur.com/yOCn2Op.png" width=900>
   
   NOTE : to prevent the conflict of pin from happening, while modifying the code, we should avoid to use these pins for LCD :
-  <img src = "http://i.imgur.com/UxySQd1.png" width=900>
+  <img src = "http://i.imgur.com/UxySQd1.png" width=600>
 
 
 ## License
