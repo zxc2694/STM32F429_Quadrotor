@@ -19,9 +19,9 @@
 #define configNRF					0       //if you didn't connect nRF module -> set 0.
 #define configULTRANSONIC			0       //if you didn't connect ultransonic -> set 0. 
 /* Status report functions */
-#define configSTATUS_SHELL		1
+#define configSTATUS_SHELL		0
 #define configSTATUS_GET_MOTORS	0
-#define configSTATUS_GET_ROLL_PITCH_YAW	0
+#define configSTATUS_GET_ROLL_PITCH_YAW	1
 #define configSTATUS_GET_ROLL_PITCH_MOTORS 0
 /* gui3 */
 #define configSTATUS_GET_MAG 0
