@@ -37,6 +37,7 @@ void system_init(void)
 	//進行GPIO、USART等等serial connection的初始化等工作，函數來自serial.c
 	Motor_Config();
 	PWM_Capture_Config();
+	us100_config();
 
 #if configSensor
 	Sensor_Config(); //IMU初始配置程式
@@ -222,17 +223,9 @@ void nrf_sending_task() 			//將資料經由nrf傳輸出去
 
 void Ultrasonic_task()
 {
-/*	#if ULT_USE_PWM // this parameter is noted in us100.c
-		us100_config();
-	#endif
-
 	while(1){		
 		print_us100_distance(); 		
-	}*/
-
-	//us100_config();
-	//serial.printf("%d\n",TIM_GetCounter(TIM8));
-
+	}
 }
 
 void lcd_task()  		//LCD ili9341 用來顯示飛行器的資料

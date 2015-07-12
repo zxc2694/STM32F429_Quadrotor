@@ -101,8 +101,15 @@ void shell_task()
 
 		//Show two values to gui3.py 
 #if configSTATUS_GET_ROLL_PITCH_YAW	
-			while(1){
+			/*while(1){
 				serial.printf("%f %f %f\n\r", AngE.Roll, AngE.Pitch, AngE.Yaw);
+				vTaskDelay(100);
+			}*/
+			while(1){
+				float counter=0.0;
+				counter=TIM_GetCounter(TIM8);
+				serial.printf("%f \n\r", counter);
+
 				vTaskDelay(100);
 			}
 #endif
