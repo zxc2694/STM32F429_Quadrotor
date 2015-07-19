@@ -12,36 +12,26 @@ STM32F429_Quadrotor
 
 
 ## Connection pins
-
-* [Input signal] R/C remote control:
-
-  PB6 - `PWM1 (Roll)`  PB7 - `PWM2 (Pitch)`   PA0 - `PWM3 (Thrust)`   PA2 - `PWM4 (Yaw)`   PA3 - `PWM5 (Safety)`
-
-* [Output signal] Motors:
-
-  PA6 - `PWM9 (motor1)`   PA7 - `PWM10 (motor2)`   PB0 - `PWM11 (motor3)`    PB1 - `PWM12 (motor4)`
   
-* [IMU] mpu9150 & ms5611:
-
-  PC3 - `INT`   PB8 - `SCL`   PB9 - `SDA`   
+  <img src = "http://i.imgur.com/W3H6Lvb.png" width=900>
   
-* [Ground station]:
-
-  PB10 - `USART3(Tx)`   PB11 - `USART3(Rx)`
+  NOTE : to prevent the conflict of pin from happening, while modifying the code, we should avoid to use these pins for LCD :
   
-  <img src = "http://i.imgur.com/yOCn2Op.png" width=900>
+  <img src = "http://i.imgur.com/UxySQd1.png" width=600>
 
 
 ## License
 
 * The [QCopterFlightControl](https://github.com/Hom19910422/QCopterFlightControl) project is copyrighted by [Hom19910422](Hom19910422@gmail.com) and governed by MIT license.
 
+* This project references [UrsusPilot](https://github.com/UrsusPilot), which is copyrighted under MIT license.
 
 * The [lineoise](https://github.com/antirez/linenoise) is copyrighted under BSD license and release by [antirez](antirez@gmail.com)
 
 * Detailed license file can be found in `LICENSE`.
 
 * The [STM32F429_Quadrotor](https://github.com/zxc2694/ICLab_Quadrotor) is released as MIT License and welcome to send any feedback to us!
+
 
 ## Features
 
