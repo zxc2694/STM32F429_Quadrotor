@@ -235,10 +235,12 @@ void AHRS_and_RC_updata(int16_t *Thr, int16_t *Pitch, int16_t *Roll, int16_t *Ya
 	system.variable[RC_EXP_ROLL].value = Exp_Roll;
 	system.variable[RC_EXP_PITCH].value = Exp_Pitch;
 	system.variable[RC_EXP_YAW].value = Exp_Yaw;
+	system.variable[TEST1].value = Safety;
+
 	/* Get ZeroErr */
 	PID_Pitch.ZeroErr = (float)((s16)Exp_Pitch);
-	PID_Roll.ZeroErr  = (float)((s16)Exp_Roll);
-	PID_Yaw.ZeroErr   = (float)((s16)Exp_Yaw) + 180.0f;
+	PID_Roll.ZeroErr = (float)((s16)Exp_Roll);
+	PID_Yaw.ZeroErr = (float)((s16)Exp_Yaw) + 180.0f;
 
 	/* PID */
 	*Roll  = (s16)PID_AHRS_Cal(&PID_Roll,   AngE.Roll,  Gyr.TrueX);
@@ -246,7 +248,7 @@ void AHRS_and_RC_updata(int16_t *Thr, int16_t *Pitch, int16_t *Roll, int16_t *Ya
 	*Yaw   = (s16)(PID_Yaw.Kd * Gyr.TrueZ) + 3 * (s16)Exp_Yaw;
 	*Thr   = (s16)Exp_Thr;
 	Bound(*Yaw, -90, 90);
-   system.variable[PID_ROLL].value = *Roll;
+   	system.variable[PID_ROLL].value = *Roll;
 	system.variable[PID_PITCH].value = *Pitch;
 	system.variable[PID_YAW].value = *Yaw;
 

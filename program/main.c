@@ -37,7 +37,6 @@ void system_init(void)
 	//進行GPIO、USART等等serial connection的初始化等工作，函數來自serial.c
 	Motor_Config();
 	PWM_Capture_Config();
-	us100_config();
 
 #if configSensor
 	Sensor_Config(); //IMU初始配置程式

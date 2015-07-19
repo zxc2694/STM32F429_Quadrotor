@@ -104,12 +104,36 @@ void shell_task()
 			/*while(1){
 				serial.printf("%f %f %f\n\r", AngE.Roll, AngE.Pitch, AngE.Yaw);
 				vTaskDelay(100);
-			}*/
+			}
 			while(1){
 				float counter=0.0;
 				counter=TIM_GetCounter(TIM8);
 				serial.printf("%f \n\r", counter);
 
+				vTaskDelay(100);
+			}
+			while(1){
+				serial.printf("PWM3 : %f\t ,PWM4 : %f\t , PWM5 : %f\t , Yaw : %f\t , safety : %f  \n\r ",system.variable[PWM3_CCR].value,system.variable[PWM4_CCR].value,system.variable[PWM5_CCR].value,system.variable[RC_EXP_YAW].value,system.variable[TEST1].value);
+				vTaskDelay(100);
+			}
+				float counter=0;
+				us100_config();
+				while(1){
+					counter=TIM_GetCounter(TIM8);
+					vTaskDelay(100);
+					counter=TIM_GetCounter(TIM8)-counter;
+					if (counter < 0){	
+						// while this function run into the counter of timer reset, the failure occur, so restart the whole function again.
+						counter=counter+65535;
+					}
+					serial.printf("counter : %f\n\r",counter);
+					vTaskDelay(100);
+				}*/
+			us100_config();
+			system.variable[Dis].value=0;
+			while(1){
+				print_us100_distance();
+				serial.printf("distance : %f ,\t counter : %f\n\r",system.variable[Dis].value,system.variable[TEST1].value);
 				vTaskDelay(100);
 			}
 #endif

@@ -12,7 +12,7 @@ Ultrasonic_t Ultrasonic = {
 };
 
 #if ULT_USE_PWM	
-	uint32_t parameter_ctr2sec = 3464/9000000;	
+	float parameter_ctr2sec = 1;	
 	// speed of sound in cm / 90 MHz = (331.4+25*0.6)*100 / 90 MHz
 #endif
 
@@ -35,7 +35,7 @@ void us100_config(){
 	TIM_ICInitTypeDef  TIM_ICInitStructure;
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
 	TIM_OCInitTypeDef TIM_OCInitStruct;
-	uint16_t PrescalerValue = (uint16_t)((SystemCoreClock / 4) / 1000000) - 1;
+	uint16_t PrescalerValue = (uint16_t)((SystemCoreClock / 4) / 10000000) - 1;
 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM8 , ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
@@ -127,12 +127,12 @@ void print_us100_distance(){
 
 	/* TIM8_CH2 PWM7 PC6 (MODE_OUT) */   /* TIM8_CH3 PWM6 PC7 (MODE_IN) */
 
-	uint16_t counter=0;
+	float counter=0;
 
 	GPIO_WriteBit(GPIOC, GPIO_Pin_7, DISABLE);
 	vTaskDelay(2);
 	GPIO_WriteBit(GPIOC, GPIO_Pin_7, ENABLE);
-	vTaskDelay(50);		
+	vTaskDelay(20);
 	// send a pulse which >=5us , tell the sensor to start surveying
 	GPIO_WriteBit(GPIOC, GPIO_Pin_7, DISABLE);
 	
@@ -150,7 +150,8 @@ void print_us100_distance(){
 		counter=counter+65535;
 	}
 
-	Ultrasonic.d = counter * parameter_ctr2sec;
+	system.variable[TEST1].value=counter;
+	Ultrasonic.d = counter / parameter_ctr2sec / 50;
 	system.variable[Dis].value = Ultrasonic.d;
 
 #endif
