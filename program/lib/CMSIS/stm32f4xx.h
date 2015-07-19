@@ -92,6 +92,10 @@
   #define STM32F427_437xx
 #endif /* STM32F427X */
 
+#ifdef STM32F429
+  #define STM32F429_439xx
+#endif /* STM32F429 */
+
 /*  Tip: To avoid modifying this file each time you need to switch between these
         devices, you can define the device in your toolchain compiler preprocessor.
   */

@@ -19,7 +19,7 @@ CFLAGS+=-ffreestanding -nostdlib -Wall
 CFLAGS+=-Wl,-T,stm32_flash.ld
 
 CFLAGS+= \
-        -D STM32F40XX \
+        -D STM32F429 \
         -D USE_STDPERIPH_DRIVER \
         -D __FPU_PRESENT=1 \
         -D ARM_MATH_CM4
