@@ -50,23 +50,23 @@
 #endif
 
 #if USE_DEVO_v10_CONTROLLER
-#define MAX_PWM1_INPUT 3796.0
-#define MID_PWM1_INPUT 2995.0 	// AILE // Roll
-#define MIN_PWM1_INPUT 2196.0
+#define MAX_PWM1_INPUT 3574.0
+#define MID_PWM1_INPUT 2800.0 	// AILE // Roll
+#define MIN_PWM1_INPUT 2054.0
 
-#define MAX_PWM2_INPUT 3804.0
-#define MID_PWM2_INPUT 3065.0 	// ELEV // Pitch
-#define MIN_PWM2_INPUT 2203.0
+#define MAX_PWM2_INPUT 3543.0
+#define MID_PWM2_INPUT 2853.0 	// ELEV // Pitch
+#define MIN_PWM2_INPUT 2050.0
 
-#define MAX_PWM3_INPUT 3795.0
-#define MIN_PWM3_INPUT 2195.0 	// THRO // Thrust
+#define MAX_PWM3_INPUT 3583.0
+#define MIN_PWM3_INPUT 2077.0 	// THRO // Thrust
 
-#define MAX_PWM4_INPUT 3804.0
-#define MID_PWM4_INPUT 3004.0 	// RUDD // Yaw
-#define MIN_PWM4_INPUT 2204.0
+#define MAX_PWM4_INPUT 3591.0
+#define MID_PWM4_INPUT 2836.0 	// RUDD // Yaw
+#define MIN_PWM4_INPUT 2081.0
 
-#define MAX_PWM5_INPUT 3800.0 	
-#define MIN_PWM5_INPUT 2200.0 	// GEAR // Protect Switch
+#define MAX_PWM5_INPUT 3587.0 	
+#define MIN_PWM5_INPUT 2076.0 	// GEAR // Protect Switch
 #endif
 
 /*
