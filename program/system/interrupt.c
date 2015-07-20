@@ -121,6 +121,7 @@ void TIM1_CC_IRQHandler(void)
 	}
 }
 
+// TIM2 for PWM6
 void TIM2_IRQHandler(void)
 {
 	uint32_t current[1];

@@ -113,8 +113,8 @@ void shell_task()
 			system.variable[Dis].value=0;
 			while(1){
 				print_us100_distance();
-				serial.printf("%f\n\r",system.variable[Dis].value);
-				vTaskDelay(100);
+				serial.printf("%f \t%f \n\r",system.variable[Dis].value,system.variable[Dis].value/50);
+				vTaskDelay(90);
 			}
 #endif
 
