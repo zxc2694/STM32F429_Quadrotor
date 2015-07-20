@@ -17,22 +17,22 @@ static __IO uint8_t pwm4_is_rising = 1;
 static __IO uint8_t pwm5_is_rising = 1;
 
 
-void TIM2_IRQHandler(void)
+void TIM1_CC_IRQHandler(void)
 {
 	uint32_t current[3];
 	TIM_ICInitTypeDef TIM_ICInitStructure;
 	TIM_ICStructInit(&TIM_ICInitStructure);
 
-	if (TIM_GetITStatus(TIM2, TIM_IT_CC1) == SET) {
+	if (TIM_GetITStatus(TIM1, TIM_IT_CC1) == SET) {
 		/* Clear TIM1 Capture compare interrupt pending bit */
-		TIM_ClearITPendingBit(TIM2, TIM_IT_CC1);
+		TIM_ClearITPendingBit(TIM1, TIM_IT_CC1);
 
 		if (pwm3_is_rising) {
 			TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
 			TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Falling;
 
 			/* Get the Input Capture value */
-			pwm3_previous_value = TIM_GetCapture1(TIM2);
+			pwm3_previous_value = TIM_GetCapture1(TIM1);
 			pwm3_is_rising = 0;
 
 		} else {
@@ -40,7 +40,7 @@ void TIM2_IRQHandler(void)
 			TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
 
 			//Get the Input Capture value
-			current[0] =  TIM_GetCapture1(TIM2);
+			current[0] =  TIM_GetCapture1(TIM1);
 
 			if (current[0] > pwm3_previous_value)
 				system.variable[PWM3_CCR].value =  current[0] - pwm3_previous_value;
@@ -50,20 +50,20 @@ void TIM2_IRQHandler(void)
 			pwm3_is_rising = 1;
 		}
 
-		TIM_ICInit(TIM2, &TIM_ICInitStructure);
+		TIM_ICInit(TIM1, &TIM_ICInitStructure);
 
 	}
 
-	if (TIM_GetITStatus(TIM2, TIM_IT_CC2) == SET) {
+	if (TIM_GetITStatus(TIM1, TIM_IT_CC2) == SET) {
 		/* Clear TIM1 Capture compare interrupt pending bit */
-		TIM_ClearITPendingBit(TIM2, TIM_IT_CC2);
+		TIM_ClearITPendingBit(TIM1, TIM_IT_CC2);
 
 		if (pwm4_is_rising) {
 			TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
 			TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Falling;
 
 			/* Get the Input Capture value */
-			pwm4_previous_value = TIM_GetCapture2(TIM2);
+			pwm4_previous_value = TIM_GetCapture2(TIM1);
 			pwm4_is_rising = 0;
 
 		} else {
@@ -71,7 +71,7 @@ void TIM2_IRQHandler(void)
 			TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
 
 			/* Get the Input Capture value */
-			current[1] =  TIM_GetCapture2(TIM2);
+			current[1] =  TIM_GetCapture2(TIM1);
 
 			if (current[1] > pwm4_previous_value)
 				system.variable[PWM4_CCR].value =  current[1] - pwm4_previous_value;
@@ -83,19 +83,19 @@ void TIM2_IRQHandler(void)
 
 		}
 
-		TIM_ICInit(TIM2, &TIM_ICInitStructure);
+		TIM_ICInit(TIM1, &TIM_ICInitStructure);
 	}
 
-	if (TIM_GetITStatus(TIM2, TIM_IT_CC3) == SET) {
+	if (TIM_GetITStatus(TIM1, TIM_IT_CC3) == SET) {
 		/* Clear TIM1 Capture compare interrupt pending bit */
-		TIM_ClearITPendingBit(TIM2, TIM_IT_CC3);
+		TIM_ClearITPendingBit(TIM1, TIM_IT_CC3);
 
 		if (pwm5_is_rising) {
 			TIM_ICInitStructure.TIM_Channel = TIM_Channel_3;
 			TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Falling;
 
 			/* Get the Input Capture value */
-			pwm5_previous_value = TIM_GetCapture3(TIM2);
+			pwm5_previous_value = TIM_GetCapture3(TIM1);
 			pwm5_is_rising = 0;
 
 		} else {
@@ -103,7 +103,7 @@ void TIM2_IRQHandler(void)
 			TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
 
 			/* Get the Input Capture value */
-			current[2] =  TIM_GetCapture3(TIM2);
+			current[2] =  TIM_GetCapture3(TIM1);
 
 			if (current[2] > pwm5_previous_value)
 				system.variable[PWM5_CCR].value =  current[2] - pwm5_previous_value;
@@ -115,7 +115,7 @@ void TIM2_IRQHandler(void)
 
 		}
 
-		TIM_ICInit(TIM2, &TIM_ICInitStructure);
+		TIM_ICInit(TIM1, &TIM_ICInitStructure);
 	}
 }
 
