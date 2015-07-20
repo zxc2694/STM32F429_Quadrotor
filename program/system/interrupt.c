@@ -10,11 +10,13 @@ static __IO uint16_t pwm2_previous_value = 0;
 static __IO uint32_t pwm3_previous_value = 0;
 static __IO uint32_t pwm4_previous_value = 0;
 static __IO uint32_t pwm5_previous_value = 0;
+static __IO uint32_t pwm6_previous_value = 0;
 static __IO uint8_t pwm1_is_rising = 1;
 static __IO uint8_t pwm2_is_rising = 1;
 static __IO uint8_t pwm3_is_rising = 1;
 static __IO uint8_t pwm4_is_rising = 1;
 static __IO uint8_t pwm5_is_rising = 1;
+static __IO uint8_t pwm6_is_rising = 1;
 
 
 void TIM1_CC_IRQHandler(void)
@@ -116,6 +118,43 @@ void TIM1_CC_IRQHandler(void)
 		}
 
 		TIM_ICInit(TIM1, &TIM_ICInitStructure);
+	}
+}
+
+void TIM2_IRQHandler(void)
+{
+	uint32_t current[1];
+	TIM_ICInitTypeDef TIM_ICInitStructure;
+	TIM_ICStructInit(&TIM_ICInitStructure);
+
+	if (TIM_GetITStatus(TIM2, TIM_IT_CC1) == SET) {
+		/* Clear TIM Capture compare interrupt pending bit */
+		TIM_ClearITPendingBit(TIM2, TIM_IT_CC1);
+
+		if (pwm6_is_rising) {
+			TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
+			TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Falling;
+
+			/* Get the Input Capture value */
+			pwm6_previous_value = TIM_GetCapture1(TIM2);
+			pwm6_is_rising = 0;
+
+		} else {
+			TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
+			TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
+
+			//Get the Input Capture value
+			current[0] =  TIM_GetCapture1(TIM2);
+
+			if (current[0] > pwm6_previous_value)
+				system.variable[Dis].value =  current[0] - pwm6_previous_value;
+			else if (current[0] < pwm6_previous_value)
+				system.variable[Dis].value = 0xFFFF - pwm6_previous_value + current[0] ;
+
+			pwm6_is_rising = 1;
+		}
+
+		TIM_ICInit(TIM2, &TIM_ICInitStructure);
 	}
 }
 

@@ -20,7 +20,7 @@
 #define PWM4 TIM1->CCR2
 #define PWM5 TIM1->CCR3
 
-#define PWM6 TIM8->CCR1
+#define PWM6 TIM2->CCR1
 #define PWM7 TIM8->CCR2
 
 

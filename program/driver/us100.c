@@ -93,6 +93,59 @@ void us100_config(){
 	// TIM_ITConfig(TIM8, TIM_IT_CC2, ENABLE);
 	// TIM_ITConfig(TIM8, TIM_IT_CC3, ENABLE);
 }
+
+void us100_PWM_Capture()
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;
+	TIM_ICInitTypeDef  TIM_ICInitStructure;
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseStruct;
+	uint16_t PrescalerValue = (uint16_t)((SystemCoreClock / 4) / 1000000) - 1;
+
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+
+	/* GPIOB clock enable */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+
+
+	/* TIM2 PWM6  PA0 */  
+	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_0;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+
+	/* Connect TIM pin to AF2 */
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource0, GPIO_AF_TIM1);
+
+	/* Enable the TIM4 global Interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY - 2;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+	TIM_DeInit(TIM2);
+	TIM_TimeBaseStruct.TIM_Period = 0xFFFF;              // 週期 = 2.5ms, 400kHz
+	TIM_TimeBaseStruct.TIM_Prescaler = 0;             // 除頻84 = 1M ( 1us )
+	TIM_TimeBaseStruct.TIM_ClockDivision = 0;
+	TIM_TimeBaseStruct.TIM_CounterMode = TIM_CounterMode_Up;    // 上數
+	TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStruct);
+	TIM_PrescalerConfig(TIM2, PrescalerValue, TIM_PSCReloadMode_Immediate);
+
+	TIM_ICInitStructure.TIM_Channel = TIM_Channel_1;
+	TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
+	TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
+	TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;
+	TIM_ICInitStructure.TIM_ICFilter = 0x0;
+
+	TIM_ICInit(TIM2, &TIM_ICInitStructure);
+
+	TIM_Cmd(TIM2, ENABLE);
+	/* Enable the Interrupt Request */
+	TIM_ITConfig(TIM2, TIM_IT_CC1, ENABLE);
+
+}
 #endif
 
 /*==============================================================================================*/
