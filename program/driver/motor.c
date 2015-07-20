@@ -160,7 +160,7 @@ void PWM_Capture_Config()
 	TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStruct);
 	TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStruct);
 	TIM_PrescalerConfig(TIM4, PrescalerValue, TIM_PSCReloadMode_Immediate);
-	TIM_PrescalerConfig(TIM1, PrescalerValue, TIM_PSCReloadMode_Immediate);
+	TIM_PrescalerConfig(TIM1, PrescalerValue*2, TIM_PSCReloadMode_Immediate);
 
 	TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
 	TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
