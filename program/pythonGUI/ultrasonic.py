@@ -1,8 +1,7 @@
 ################################################################################
 # File name: ultrasonic.py
 #
-# Function: Display three data from stm32f4 using Python (matplotlib)
-#	    The one data, the flight height of quadcopter.
+# Function: Display the flight height of quadcopter from stm32f4 using Python (matplotlib)
 #
 # Reference:http://electronut.in/plotting-real-time-data-from-arduino-using-python/
 #
