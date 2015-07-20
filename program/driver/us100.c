@@ -74,24 +74,6 @@ void us100_config(){
 
 	/* TIM enable counter */
 	TIM_Cmd(TIM8, ENABLE);
-
-	// TIM_ICInitStructure.TIM_Channel = TIM_Channel_2;
-	// TIM_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;
-	// TIM_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
-	// TIM_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV8;	// 0x000C, so f=90MHz
-	// TIM_ICInitStructure.TIM_ICFilter = 0x0;
-	// TIM_ICInit(TIM8, &TIM_ICInitStructure);			// for PC7 TIM8_CH2
-	// TIM_ICInitStructure.TIM_Channel = TIM_Channel_3;
-	// TIM_ICInit(TIM8, &TIM_ICInitStructure);			// for PC6 TIM8_CH3
-
-	// NVIC_InitStructure.NVIC_IRQChannel = TIM8_CC_IRQn;
-	// NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY - 2;
-	// NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-	// NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-	// NVIC_Init(&NVIC_InitStructure);
-
-	// TIM_ITConfig(TIM8, TIM_IT_CC2, ENABLE);
-	// TIM_ITConfig(TIM8, TIM_IT_CC3, ENABLE);
 }
 
 void us100_PWM_Capture()
@@ -104,12 +86,11 @@ void us100_PWM_Capture()
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
 
-	/* GPIOB clock enable */
+	/* GPIOA clock enable */
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 
-
-	/* TIM2 PWM6  PA0 */  
-	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_0;
+	/* TIM2 PWM6  PA0 (Ultrasonic In) */ /* GPIO PA1 (Ultrasonic Out) */  
+	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_0 | GPIO_Pin_1;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -119,12 +100,13 @@ void us100_PWM_Capture()
 	/* Connect TIM pin to AF2 */
 	GPIO_PinAFConfig(GPIOA, GPIO_PinSource0, GPIO_AF_TIM1);
 
-	/* Enable the TIM4 global Interrupt */
+	/* Enable the TIM2 global Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY - 2;
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
+	
 	TIM_DeInit(TIM2);
 	TIM_TimeBaseStruct.TIM_Period = 0xFFFF;              // 週期 = 2.5ms, 400kHz
 	TIM_TimeBaseStruct.TIM_Prescaler = 0;             // 除頻84 = 1M ( 1us )

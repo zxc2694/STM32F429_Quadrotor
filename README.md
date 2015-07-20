@@ -15,8 +15,6 @@ STM32F429_Quadrotor
   
   <img src = "http://i.imgur.com/UINL2Px.png" width=800>
   
-  <img src = "http://i.imgur.com/fkhGlQz.png" width=800>
-  
   NOTE : to prevent the conflict of pin from happening, while modifying the code, we should avoid to use these pins for LCD :
   
   <img src = "http://i.imgur.com/UxySQd1.png" width=600>
@@ -69,6 +67,16 @@ After enable the command line, you can type :
 ## Linenoise hotkeys
 
 * To get more informations, please read the LINENOISE.md
+
+## TOOLS
+
+* to see the python plot of data in pythonGUI folder, you need to install
+
+$ sudo apt-get install python
+
+$ sudo apt-get install python-numpy
+
+$ sudo apt-get install python-matplotlib
 
 ## TODO
 
