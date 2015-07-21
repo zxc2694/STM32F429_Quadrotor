@@ -15,6 +15,11 @@ STM32F429_Quadrotor
 
 <img src = "http://i.imgur.com/JSBTK8e.png" width=600>
 
+　　<img src = "http://i.imgur.com/xpIl7rl.png" width=288>  　　　<img src = "http://www.futaba-rc.com/systems/futk7000b.jpg" width=218> 
+
+this responsitory supports 3 kinds of remote controller : FUTABA TC7, DEVO v10, WFLY WFT08X.
+see [/program/config/QuadCopterConfig.h](https://github.com/saya222777/STM32F429_Quadrotor/blob/master/program/config/QuadCopterConfig.h)
+
 
 ## Connection pins
   
