@@ -9,11 +9,16 @@ STM32F429_Quadrotor
 <img src = "https://lh5.googleusercontent.com/-ox-Q230u9II/VVwGDFMxlaI/AAAAAAAABPo/IFKrzYnNl2M/w1032-h595-no/%25E6%259C%25AA%25E5%2591%25BD%25E5%2590%258D.png" width=600>
 
   <img src = "http://i.imgur.com/bF1zsjb.png" width=600>
+  
+  
+## Remote Controller  
+
+<img src = "http://i.imgur.com/JSBTK8e.png" width=600>
 
 
 ## Connection pins
   
-  <img src = "http://i.imgur.com/UINL2Px.png" width=800>
+  <img src = "http://i.imgur.com/rflFcuh.png" width=600>
   
   NOTE : to prevent the conflict of pin from happening, while modifying the code, we should avoid to use these pins for LCD :
   
@@ -53,6 +58,7 @@ STM32F429_Quadrotor
 * showData - Display all the data of flight from reading IMU 
 * tuning - Online tuning PID parameters
 
+
 ## QuadCopter Status Monitor
 
 After enable the command line, you can type :
@@ -64,9 +70,11 @@ After enable the command line, you can type :
 * set - Set the parameter of the quadcopter
       - set [quadcopter parameter] [value] / set update
 
+
 ## Linenoise hotkeys
 
 * To get more informations, please read the LINENOISE.md
+
 
 ## TOOLS
 
@@ -77,6 +85,7 @@ $ sudo apt-get install python
 $ sudo apt-get install python-numpy
 
 $ sudo apt-get install python-matplotlib
+
 
 ## TODO
 
