@@ -58,7 +58,7 @@ class AnalogPlot:
 		plt.ylabel("PWM 700~2000")
 		plt.title("Quadcopter attitude")
 		plt.legend()		#Show label figure.
-		plt.ylim([780, 1200]) # Vertical axis scale.
+		plt.ylim([750, 1700]) # Vertical axis scale.
 #TEST	plt.ylim([-90, 90]) # Vertical axis scale.
 		plt.grid()
 
