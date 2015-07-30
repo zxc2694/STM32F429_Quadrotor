@@ -21,7 +21,7 @@
 #define PWM5 TIM1->CCR3
 
 #define PWM6 TIM2->CCR1
-#define PWM7 TIM8->CCR2
+//#define PWM7 TIM8->CCR2
 
 
 #define PWM_Motor1 TIM3->CCR1   // 無刷 PWM

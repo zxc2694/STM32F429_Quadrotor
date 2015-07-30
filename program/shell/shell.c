@@ -112,9 +112,23 @@ void shell_task()
 			us100_config();
 			system.variable[Dis].value=0;
 			while(1){
-				print_us100_distance();
-				serial.printf("%f \t%f \n\r",system.variable[Dis].value,system.variable[Dis].value/50);
-				vTaskDelay(90);
+				// test 1 ------------------------------------------------------------
+				// print_us100_distance();
+				// serial.printf("%f \t%f \n\r",system.variable[Dis].value,system.variable[Dis].value/50);
+				// vTaskDelay(90);
+
+				// test 2 ------------------------------------------------------------
+				GPIO_WriteBit(GPIOA, GPIO_Pin_1, DISABLE);
+				serial.printf("0");
+				vTaskDelay(500);
+				GPIO_WriteBit(GPIOA, GPIO_Pin_1, ENABLE);
+				serial.printf("1");
+				vTaskDelay(500);
+
+				// test 3 ------------------------------------------------------------
+				// print_us100_distance();
+				// serial.printf("%f\n\r",Ultrasonic.d);
+
 			}
 #endif
 
