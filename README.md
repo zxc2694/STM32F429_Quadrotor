@@ -83,9 +83,11 @@ After enable the command line, you can type :
 
 ## TOOLS
 
-* to see the python plot of data in pythonGUI folder, you need to install
+To see the python plot of data in pythonGUI folder, you need to install
 
 $ sudo apt-get install python
+
+$ sudo apt-get install pyserial
 
 $ sudo apt-get install python-numpy
 
